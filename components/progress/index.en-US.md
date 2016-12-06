@@ -1,12 +1,12 @@
 ---
 category: Components
-type: Views
+type: Feedback
 title: Progress
 ---
 
 To display the current progress of an operation flow.
 
-## When to use
+## When To Use
 
 If it will take a long time to complete the operation, you can use `Progress` to show the current progress and status.
 

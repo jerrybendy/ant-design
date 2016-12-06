@@ -1,6 +1,6 @@
 ---
 order: 0
-title: 
+title:
   zh-CN: 基本使用
   en-US: Basic Usage
 ---
@@ -16,6 +16,10 @@ Basic Usage, set datasource of autocomplete with `dataSource` property.
 ````jsx
 import { AutoComplete } from 'antd';
 
+function onSelect(value) {
+  console.log('onSelect', value);
+}
+
 const Complete = React.createClass({
   getInitialState() {
     return {
@@ -24,7 +28,7 @@ const Complete = React.createClass({
   },
   handleChange(value) {
     this.setState({
-      dataSource: [
+      dataSource: !value ? [] : [
         value,
         value + value,
         value + value + value,
@@ -33,11 +37,15 @@ const Complete = React.createClass({
   },
   render() {
     const { dataSource } = this.state;
-    return (<AutoComplete
-      dataSource={dataSource}
-      style={{ width: 200 }}
-      onChange={this.handleChange}
-    />);
+    return (
+      <AutoComplete
+        dataSource={dataSource}
+        style={{ width: 200 }}
+        onSelect={onSelect}
+        onChange={this.handleChange}
+        placeholder="input here"
+      />
+    );
   },
 });
 

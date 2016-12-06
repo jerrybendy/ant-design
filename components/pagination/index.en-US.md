@@ -6,7 +6,7 @@ title: Pagination
 
 A long list can be divided into several pages by `Pagination`, and only one page will be loaded at a time.
 
-## When to use
+## When To Use
 
 - When it will take a long time to load/render all items.
 - If you want to browse the data by switching in the pages.
@@ -31,4 +31,4 @@ onShowSizeChange | a callback function, can be executed when `pageSize` is chang
 showQuickJumper | determine whether you can jump to a page directly | Boolean | false
 size | specify the size of `Pagination`, can be set to `small` | String | ""
 simple | whether to use simple mode | Object | -
-showTotal | to custom the total number display | Function | -
+showTotal | to display the total number and range | Function(total, range) | -

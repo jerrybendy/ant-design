@@ -1,8 +1,8 @@
 ---
 category: Components
-chinese: 分页
+subtitle: 分页
 type: Navigation
-english: Pagination
+title: Pagination
 ---
 
 采用分页的形式分隔长列表，每次只加载一个页面。
@@ -32,4 +32,4 @@ english: Pagination
 | showQuickJumper  | 是否可以快速跳转至某页             | Boolean         | false                    |
 | size             | 当为「small」时，是小尺寸分页      | String        | ""                       |
 | simple           | 当添加该属性时，显示为简单分页     | Object        | -                       |
-| showTotal        | 用于显示总共有多少条数据          | Function      | -                      |
+| showTotal        | 用于显示数据总量和当前数据顺序     | Function(total, range) | -              |

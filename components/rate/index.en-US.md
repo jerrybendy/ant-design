@@ -1,14 +1,14 @@
 ---
 category: Components
-type: Form Controls
+type: Data Entry
 title: Rate
 ---
 
 Rate component.
 
-## When to use
+## When To Use
 
-- Show evalutate.
+- Show evaluation.
 - A quick rating operation on something.
 
 ## API
@@ -18,6 +18,6 @@ Rate component.
 | count    | star count | Number | 5 |
 | value | current value | Number | - |
 | defaultValue | default value | Number | 0 |
-| onChange(value: Number) | callback   | Function | - |
-| allowHalf | weather to allow semi selection   | Boolean | false |
+| onChange | callback | Function(value: Number) | - |
+| allowHalf | whether to allow semi selection   | Boolean | false |
 | disabled | read only, unable to interact | Boolean | false |

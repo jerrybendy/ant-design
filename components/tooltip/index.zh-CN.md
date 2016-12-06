@@ -1,8 +1,8 @@
 ---
 category: Components
-chinese: 文字提示
-type: Views
-english: Tooltip
+subtitle: 文字提示
+type: Data Display
+title: Tooltip
 ---
 
 简单的文字提示气泡框。
@@ -20,5 +20,6 @@ english: Tooltip
 | placement | 气泡框位置，可选 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | string     | top    |
 | title     | 提示文字                                 | string/React.Element | 无     |
 | getTooltipContainer | 浮层渲染父节点。默认渲染到 body 上 | Function(triggerNode) | () => document.body |
+| arrowPointAtCenter | 箭头是否指向目标元素中心，`antd@1.11+` 支持 | Boolean | `false` |
 
 更多 API 可参考：https://github.com/react-component/tooltip

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Notification from 'rc-notification';
 import Icon from '../icon';
 
@@ -23,7 +23,7 @@ function notice(
   content: React.ReactNode,
   duration: number = defaultDuration,
   type: NoticeType,
-  onClose: () => void) {
+  onClose?: () => void) {
   let iconType = ({
     info: 'info-circle',
     success: 'check-circle',
@@ -53,11 +53,11 @@ function notice(
   }());
 }
 
-type ConfigContent = React.ReactNode;
+type ConfigContent = React.ReactNode | string;
 type ConfigDuration = number;
-type ConfigOnClose = () => void;
+export type ConfigOnClose = () => void;
 
-interface ConfigOptions {
+export interface ConfigOptions {
   top?: number;
   duration?: number;
   prefixCls?: string;
@@ -85,13 +85,13 @@ export default {
   },
 
   config(options: ConfigOptions) {
-    if ('top' in options) {
+    if (options.top !== undefined) {
       defaultTop = options.top;
     }
-    if ('duration' in options) {
+    if (options.duration !== undefined) {
       defaultDuration = options.duration;
     }
-    if ('prefixCls' in options) {
+    if (options.prefixCls !== undefined) {
       prefixCls = options.prefixCls;
     }
   },

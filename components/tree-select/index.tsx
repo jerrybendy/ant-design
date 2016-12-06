@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import RcTreeSelect, { TreeNode, SHOW_ALL, SHOW_PARENT, SHOW_CHILD } from 'rc-tree-select';
 import classNames from 'classnames';
 import { TreeSelectProps, TreeSelectContext } from './interface';
@@ -28,31 +28,27 @@ export default class TreeSelect extends React.Component<TreeSelectProps, any> {
   render() {
     const props = this.props;
     let {
-      size, className, combobox, notFoundContent, prefixCls,
+      size, className = '', notFoundContent, prefixCls,
     } = this.props;
 
     const cls = classNames({
       [`${prefixCls}-lg`]: size === 'large',
       [`${prefixCls}-sm`]: size === 'small',
-      [className]: !!className,
-    });
+    }, className);
 
     const { antLocale } = this.context;
     if (antLocale && antLocale.Select) {
       notFoundContent = notFoundContent || antLocale.Select.notFoundContent;
     }
 
-    if (combobox) {
-      notFoundContent = null;
-    }
-
     let checkable = props.treeCheckable;
     if (checkable) {
-      checkable = <span className={`${prefixCls}-tree-checkbox-inner`}></span>;
+      checkable = <span className={`${prefixCls}-tree-checkbox-inner`} />;
     }
 
     return (
-      <RcTreeSelect {...this.props}
+      <RcTreeSelect
+        {...this.props}
         treeCheckable={checkable}
         className={cls}
         notFoundContent={notFoundContent}

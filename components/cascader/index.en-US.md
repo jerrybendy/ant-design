@@ -1,17 +1,17 @@
 ---
 category: Components
-type: Form Controls
+type: Data Entry
 title: Cascader
 ---
 
 Cascade selection box.
 
 
-## When to use
+## When To Use
 
 - When you need to select from a set of associated data set. Such as province/city/district, company level, things classification.
 - When selecting from a large data set, with multi-stage classification separated for easy selection.
-- chooses cascade items in one float layer for better user experience.
+- Chooses cascade items in one float layer for better user experience.
 
 ## API
 
@@ -36,3 +36,21 @@ Cascade selection box.
 | allowClear | whether allow clear | boolean | true |
 | expandTrigger | expand current item when click or hover, one of 'click' 'hover' | string | 'click' |
 | changeOnSelect | change value on each selection if set to true, see above demo for details | boolean | false |
+| showSearch | Whether show search input in single mode. | Boolean or Object | false |
+| notFoundContent | Specify content to show when no result matches. | String | 'Not Found' |
+| getPopupContainer | Parent Node which the selector should be rendered to. Default to `body`. When position issues happen, try to modify it into scrollable content and position it relative.[example](http://codepen.io/anon/pen/xVBOVQ?editors=001) | Function(triggerNode) | () => document.body |
+
+Fields in `showSearch`:
+
+| Property | Description | Type | Default |
+|----------|-------------|------|---------|
+| filter | The function will receive two arguments, inputValue and option, if the function returns true, the option will be included in the filtered set; Otherwise, it will be excluded. | `function(inputValue, path): boolean` | |
+| render | Used to render filtered options. | `function(inputValue, path): React.ReactNode` | |
+| sort | Used to sort filtered options. | `function(a, b, inputValue)` | |
+| matchInputWidth | Whether the width of result list equals to input's | boolean | |
+
+<style>
+.ant-cascader-picker {
+  width: 220px;
+}
+</style>

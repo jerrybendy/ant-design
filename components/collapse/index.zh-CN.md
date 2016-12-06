@@ -1,8 +1,9 @@
 ---
 category: Components
-type: Views
+type: Data Display
 title: Collapse
 subtitle: 折叠面板
+cols: 1
 ---
 
 可以折叠/展开的内容区域。

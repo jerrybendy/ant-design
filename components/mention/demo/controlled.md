@@ -1,6 +1,8 @@
 ---
-order: 3
-title: 受控模式
+order: 4
+title:
+  zh-CN: 配合 Form 使用
+  en-US: With Form
 ---
 
 ## zh-CN
@@ -9,7 +11,7 @@ title: 受控模式
 
 ## en-US
 
-Controlled mode, for example, work with `Form` .
+Controlled mode, for example, to work with `Form` .
 
 ````jsx
 import { Mention, Form, Button } from 'antd';
@@ -29,7 +31,7 @@ let App = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFields((errors, values) => {
-      if (!!errors) {
+      if (errors) {
         console.log('Errors in form!!!');
         return;
       }
@@ -41,37 +43,37 @@ let App = React.createClass({
     const { getFieldValue } = this.props.form;
     const mentions = getMentions(getFieldValue('mention'));
     if (mentions.length < 2) {
-      callback(new Error('最帅的码农不止一个！!'));
+      callback(new Error('More than one must be selected!'));
     } else {
       callback();
     }
   },
   render() {
-    const { getFieldProps, getFieldValue } = this.props.form;
-    const mentionProps = getFieldProps('mention', {
-      rules: [
-        { validator: this.checkMention },
-      ],
-      initialValue: this.state.initValue,
-    });
+    const { getFieldDecorator, getFieldValue } = this.props.form;
     console.log('>> render', getFieldValue('mention') === this.state.initValue);
     return (
-      <Form horizontal form={this.props.form}>
+      <Form horizontal>
         <FormItem
           id="control-mention"
-          label="最帅的码农"
+          label="Top coders"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
         >
-          <Mention
-            {...mentionProps}
-            suggestions={['afc163', 'benjycui', 'yiminghe', 'RaoHai', '中文', 'にほんご']}
-          />
+          {getFieldDecorator('mention', {
+            rules: [
+              { validator: this.checkMention },
+            ],
+            initialValue: this.state.initValue,
+          })(
+            <Mention
+              suggestions={['afc163', 'benjycui', 'yiminghe', 'RaoHai', '中文', 'にほんご']}
+            />
+          )}
         </FormItem>
         <FormItem wrapperCol={{ span: 14, offset: 6 }}>
-          <Button type="primary" onClick={this.handleSubmit}>确定</Button>
+          <Button type="primary" onClick={this.handleSubmit}>Submit</Button>
           &nbsp;&nbsp;&nbsp;
-          <Button type="ghost" onClick={this.handleReset}>重置</Button>
+          <Button type="ghost" onClick={this.handleReset}>Reset</Button>
         </FormItem>
       </Form>
     );

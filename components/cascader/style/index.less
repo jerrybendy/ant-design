@@ -1,11 +1,12 @@
 @import "../../style/themes/default";
 @import "../../style/mixins/index";
 
-@cascader-prefix-cls: ant-cascader;
+@cascader-prefix-cls: ~"@{ant-prefix}-cascader";
 
 .@{cascader-prefix-cls} {
   font-size: @font-size-base;
-  &-input.ant-input {
+  &-input.@{ant-prefix}-input {
+    background-color: transparent;
     display: block;
     cursor: pointer;
     width: 100%;
@@ -20,8 +21,16 @@
     background-color: #fff;
     border-radius: @border-radius-base;
 
+    &-with-value &-label {
+      color: transparent;
+    }
+
     &-disabled {
       cursor: not-allowed;
+
+      .@{cascader-prefix-cls}-input {
+        cursor: not-allowed;
+      }
     }
 
     &-label {
@@ -36,7 +45,6 @@
       overflow: hidden;
       width: 100%;
       padding: 0 12px 0 8px;
-      z-index: 1;
     }
 
     &-clear {
@@ -46,7 +54,7 @@
       z-index: 2;
       background: #fff;
       top: 50%;
-      font-size: 12px;
+      font-size: @font-size-base;
       color: #ccc;
       width: 12px;
       height: 12px;
@@ -55,7 +63,7 @@
       cursor: pointer;
       transition: color 0.3s ease, opacity 0.15s ease;
       &:hover {
-        color: #999;
+        color: @text-color-secondary;
       }
     }
 
@@ -73,8 +81,8 @@
       height: 12px;
       margin-top: -6px;
       line-height: 12px;
-      color: #999;
-      .iconfont-size-under-12px(8px);
+      color: @text-color-secondary;
+      .iconfont-size-under-12px(9px);
       &:before {
         transition: transform 0.2s ease;
       }
@@ -87,11 +95,10 @@
     }
   }
   &-menus {
-    font-size: 12px;
+    font-size: @font-size-base;
     background: #fff;
     position: absolute;
     z-index: @zindex-dropdown;
-    border: 1px solid @border-color-base;
     border-radius: @border-radius-base;
     box-shadow: @box-shadow-base;
     white-space: nowrap;
@@ -164,12 +171,16 @@
     &-expand {
       position: relative;
       &:after {
-        .iconfont-font("\e600");
+        .iconfont-font("\e61f");
         .iconfont-size-under-12px(8px);
-        color: #999;
+        color: @text-color-secondary;
         position: absolute;
         right: 15px;
       }
+    }
+
+    & &-keyword {
+      color: @highlight-color;
     }
   }
 }

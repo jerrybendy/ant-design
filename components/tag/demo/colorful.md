@@ -1,17 +1,27 @@
 ---
 order: 1
-title: 各种类型
+title:
+  zh-CN: 多彩标签
+  en-US: Colorful
 ---
 
-四种颜色的标签。
+## zh-CN
+
+基本标签可以通过 `color` 设置背景色，以提供视觉暗示区分不同目的的标签。
+
+## en-US
+
+We can set the background color of basic Tag by `color`, and it's helpful to tell different Tags.
 
 ````jsx
 import { Tag } from 'antd';
 
-ReactDOM.render(<div>
-  <Tag closable color="blue">蓝色</Tag>
-  <Tag closable color="green">绿色</Tag>
-  <Tag closable color="yellow"><a href="https://github.com/ant-design/ant-design/issues/1862">黄色</a></Tag>
-  <Tag closable color="red">红色</Tag>
-</div>, mountNode);
+ReactDOM.render(
+  <div>
+    <Tag color="#f50">#f50</Tag>
+    <Tag color="#87d068">#87d068</Tag>
+    <Tag color="#108ee9">#108ee9</Tag>
+  </div>,
+  mountNode
+);
 ````

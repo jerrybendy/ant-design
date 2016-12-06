@@ -1,36 +1,33 @@
-import * as React from 'react';
-const { cloneElement } = React;
+import React from 'react';
+import { cloneElement } from 'react';
 import RcTooltip from 'rc-tooltip';
-import getPlacements from '../popover/placements';
+import classNames from 'classnames';
+import getPlacements from './placements';
 
-const placements = getPlacements({
-  verticalArrowShift: 8,
-});
+export type TooltipPlacement =
+  'top' | 'left' | 'right' | 'bottom' |
+  'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' |
+  'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom';
 
-type PopoverPlacement =
-  'top' | 'left' | 'right' | 'bottom' | 'topLeft' |
-  'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' |
-  'leftBottom' | 'rightTop' | 'rightBottom'
-
-// Tooltip
-export interface TooltipProps {
-  /**
-    气泡框位置，可选 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft`
-    `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom`
-  */
-  placement?: PopoverPlacement;
-  /** 提示文字 */
-  title: React.ReactNode;
-  style?: React.CSSProperties;
-  builtinPlacements?: Object;
-  /** Style of overlay */
-  overlayStyle?: React.CSSProperties;
+export interface AbstractTooltipProps {
   prefixCls?: string;
-  /** Callback when display/hide */
+  overlayClassName?: string;
+  style?: React.CSSProperties;
+  overlayStyle?: React.CSSProperties;
+  placement?: TooltipPlacement;
+  builtinPlacements?: Object;
+  visible?: boolean;
   onVisibleChange?: (visible: boolean) => void;
   transitionName?: string;
-  visible?: boolean;
   trigger?: 'hover' | 'focus' | 'click';
+  openClassName?: string;
+  arrowPointAtCenter?: boolean;
+  getTooltipContainer?: (triggerNode: React.ReactNode) => HTMLElement;
+  children?: React.ReactElement<any>;
+}
+
+export interface TooltipProps extends AbstractTooltipProps {
+  title: React.ReactNode;
   overlay?: React.ReactNode;
 }
 
@@ -38,30 +35,57 @@ export default class Tooltip extends React.Component<TooltipProps, any> {
   static defaultProps = {
     prefixCls: 'ant-tooltip',
     placement: 'top',
-    transitionName: 'zoom-big',
+    transitionName: 'zoom-big-fast',
     mouseEnterDelay: 0.1,
     mouseLeaveDelay: 0.1,
-    onVisibleChange() {},
+    arrowPointAtCenter: false,
   };
 
-  constructor(props) {
+  refs: {
+    tooltip: any;
+  };
+
+  constructor(props: TooltipProps) {
     super(props);
+
     this.state = {
-      visible: false,
+      visible: props.visible,
     };
   }
 
+  componentWillReceiveProps(nextProps: TooltipProps) {
+    if ('visible' in nextProps) {
+      this.setState({ visible: nextProps.visible });
+    }
+  }
+
   onVisibleChange = (visible) => {
-    this.setState({ visible });
-    this.props.onVisibleChange(visible);
+    const props = this.props;
+    if (!('visible' in props)) {
+      this.setState({ visible });
+    }
+
+    const onVisibleChange = props.onVisibleChange;
+    if (onVisibleChange) {
+      onVisibleChange(visible);
+    }
   }
 
   getPopupDomNode() {
     return this.refs.tooltip.getPopupDomNode();
   }
 
+  getPlacements() {
+    const { builtinPlacements, arrowPointAtCenter } = this.props;
+    return builtinPlacements || getPlacements({
+      arrowPointAtCenter,
+      verticalArrowShift: 8,
+    });
+  }
+
   // 动态设置动画点
   onPopupAlign = (domNode, align) => {
+    const placements = this.getPlacements();
     // 当前返回的位置
     const placement = Object.keys(placements).filter(
       key => (
@@ -92,30 +116,31 @@ export default class Tooltip extends React.Component<TooltipProps, any> {
   }
 
   render() {
-    const { prefixCls, title, overlay, children, transitionName } = this.props;
+    const { props, state } = this;
+    const { prefixCls, title, overlay, openClassName, children } = props;
+    let visible = state.visible;
     // Hide tooltip when there is no title
-    let visible = this.state.visible;
-    if (!title && !overlay) {
+    if (!('visible' in props) && !title && !overlay) {
       visible = false;
     }
-    if ('visible' in this.props) {
-      visible = this.props.visible;
-    }
-    const openClassName = this.props.openClassName || `${prefixCls}-open`;
-    const childrenCls = (children && children.props && children.props.className)
-      ? `${children.props.className} ${openClassName}` : openClassName;
+
+    const child = React.isValidElement(children) ? children : <span>{children}</span>;
+    const childProps = child.props;
+    const childCls = classNames(childProps.className, {
+      [openClassName || `${prefixCls}-open`]: true,
+    });
+
     return (
       <RcTooltip
-        transitionName={transitionName}
-        builtinPlacements={placements}
-        overlay={title}
-        visible={visible}
-        onPopupAlign={this.onPopupAlign}
-        ref="tooltip"
         {...this.props}
+        ref="tooltip"
+        builtinPlacements={this.getPlacements()}
+        overlay={overlay || title}
+        visible={visible}
         onVisibleChange={this.onVisibleChange}
-        >
-        {visible ? cloneElement(children, { className: childrenCls }) : children}
+        onPopupAlign={this.onPopupAlign}
+      >
+        {visible ? cloneElement(child, { className: childCls }) : child}
       </RcTooltip>
     );
   }

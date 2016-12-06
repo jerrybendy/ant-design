@@ -1,8 +1,8 @@
 ---
 category: Components
-chinese: 徽标数
-type: Views
-english: Badge
+subtitle: 徽标数
+type: Data Display
+title: Badge
 ---
 
 图标右上角的圆形徽标数字。
@@ -15,7 +15,7 @@ english: Badge
 
 ```jsx
 <Badge count={5}>
-  <a href="#" className="head-example"></a>
+  <a href="#" className="head-example" />
 </Badge>
 ```
 

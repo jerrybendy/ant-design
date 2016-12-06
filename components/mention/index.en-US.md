@@ -1,9 +1,7 @@
 ---
 category: Components
-chinese: 提及
-cols: 1
-type: Views
-english: Mention
+type: Data Entry
+title: Mention
 ---
 
 Mention component。
@@ -35,18 +33,22 @@ When need to mention someone or something.
 | Property     | Description          | Type     | Default       |
 |----------|---------------|----------|--------------|
 | suggestions    | suggestion content | Array<string> or Array<Mention.Nav> | [] |
-| suggestionStyle | style of suggestion container | Objet | {} |
+| suggestionStyle | style of suggestion container | Object | {} |
 | onSearchChange | Callback function called when search content changes | function(value:String) | [] |
 | onChange | Callback function called when content of input changes | function(editorState: EditorState) | null |
+| onSelect | Callback function called when select from suggestions | function(suggestion: String, data?: any) | null |
 | notFoundContent| suggestion when suggestions empty | string | '无匹配结果，轻敲空格完成输入' |
 | loading | loading mode | boolean | false |
 | multiLines | multilines mode | boolean | false |
+| prefix | character which will trigger Mention to show mention list | string | '@' |
 | defaultValue | default value | EditorState, you can use `Mention.toEditorState` to convert text to `EditorState` | null |
 | value | core state of mention | EditorState | null |
+| placeHolder | placeholder of input | string | null |
+| getSuggestionContainer | rendered to the root of the menu. Default rendered to the body dom. If gets any problem of the menu while scrolling. Try to make the root the dom scrolled, and make it position relative.  | Function() | () => document.body |
 
 ### Nav props
 
 | Property     | Description           | Type     | Default       |
 |----------|---------------|----------|--------------|
 | value    | value of suggestion，the value will insert into input filed while selected | string | "" |
-| children | suggestion content | Objet | {} |
+| children | suggestion content | Object | {} |

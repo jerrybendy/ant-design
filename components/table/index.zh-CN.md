@@ -1,8 +1,9 @@
 ---
 category: Components
 cols: 1
-type: Views
+type: Data Display
 title: Table
+subtitle: 表格
 ---
 
 展示行列数据。
@@ -53,7 +54,7 @@ const columns = [{
 | 参数           | 说明                     | 类型             | 默认值   |
 |---------------|--------------------------|-----------------|---------|
 | rowSelection  | 列表项是否可选择，[配置项](#rowSelection) | Object  | null  |
-| pagination    | 分页器，配置项参考 [pagination](/components/pagination)，设为 false 时不显示分页 | Object |  |
+| pagination    | 分页器，配置项参考 [pagination](/components/pagination/)，设为 false 时不展示和进行分页 | Object |  |
 | size          | 正常或迷你类型，`default` or `small`  | String | default |
 | dataSource    | 数据数组 | Array |            |
 | columns       | 表格列的配置描述，具体项见下表 | Array | - |
@@ -62,6 +63,9 @@ const columns = [{
 | expandedRowRender  | 额外的展开行 | Function | - |
 | defaultExpandedRowKeys | 默认展开的行 | Array | - |
 | expandedRowKeys | 展开的行，控制属性 | Array | - |
+| defaultExpandAllRows | 初始时，是否展开所有行 | Boolean | false |
+| onExpandedRowsChange | 展开的行变化时触发 | Function(expandedRows) | |
+| onExpand      | 点击展开图标时触发 | Function(expanded, record) | |
 | onChange      | 分页、排序、筛选变化时触发 | Function(pagination, filters, sorter) |  |
 | loading       | 页面是否加载中 | Boolean | false |
 | locale        | 默认文案设置，目前包括排序、过滤、空数据文案 | Object | filterConfirm: '确定' <br> filterReset: '重置' <br> emptyText: '暂无数据' <br> [默认值](https://github.com/ant-design/ant-design/issues/575#issuecomment-159169511) |
@@ -75,7 +79,7 @@ const columns = [{
 
 ### Column
 
-列描述数据对象，是 columns 中的一项。
+列描述数据对象，是 columns 中的一项，Column 使用相同的 API。
 
 | 参数       | 说明                       | 类型            |  默认值  |
 |-----------|----------------------------|-----------------|---------|
@@ -87,13 +91,22 @@ const columns = [{
 | onFilter   | 本地模式下，确定筛选的运行函数 | Function    | - |
 | filterMultiple | 是否多选 | Boolean    | true    |
 | filterDropdown | 可以自定义筛选菜单，此函数只负责渲染图层，需要自行编写各种交互 | React.Element | - |
+| filterDropdownVisible | 用于控制自定义筛选菜单是否可见 | Boolean | - |
+| onFilterDropdownVisibleChange | 自定义筛选菜单可见变化时调用 | function(visible) {} | - |
+| filteredValue | 筛选的受控属性，外界可用此控制列的筛选状态，值为已筛选的 value 数组 | Array | - |
 | sorter     | 排序函数，本地排序使用一个函数，需要服务端排序可设为 true | Function or Boolean | - |
 | colSpan    | 表头列合并,设置为 0 时，不渲染 | Number      |         |
 | width      | 列宽度 | String or Number | -  |
 | className  | 列的 className             | String          |  -      |
 | fixed      | 列是否固定，可选 `true`(等效于 left) `'left'` `'right'` | Boolean or String | false |
-| filteredValue | 筛选的受控属性，外界可用此控制列的筛选状态，值为已筛选的 value 数组 | Array | - |
 | sortOrder | 排序的受控属性，外界可用此控制列的排序，可设置为 `'ascend'` `'descend'` `false` | Boolean or String | - |
+| onCellClick | 单元格点击回调 | Function(record, event) | - |
+
+### ColumnGroup
+
+| 参数       | 说明                       | 类型            |  默认值  |
+|-----------|----------------------------|-----------------|---------|
+| title      | 列头显示文字               | String or React.Element | - |
 
 ### rowSelection
 

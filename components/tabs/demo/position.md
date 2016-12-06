@@ -1,6 +1,8 @@
 ---
 order: 6
-title: 位置
+title: 
+  zh-CN: 位置
+  en-US: Position
 ---
 
 ## zh-CN
@@ -29,7 +31,7 @@ const Demo = React.createClass({
     return (
       <div>
         <div style={{ marginBottom: 16 }}>
-          页签位置：
+          Tab position：
           <Select value={this.state.tabPosition} onChange={this.changeTabPosition}
             dropdownMatchSelectWidth={false}
           >

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import RcPagination from 'rc-pagination';
 import Select from '../select';
 import MiniSelect from './MiniSelect';
@@ -34,6 +34,8 @@ export interface PaginationProps {
   style?: React.CSSProperties;
   className?: string;
   locale?: Object;
+  prefixCls?: string;
+  selectPrefixCls?: string;
 }
 
 export interface PaginationContext {
@@ -47,6 +49,7 @@ export default class Pagination extends React.Component<PaginationProps, any> {
     locale: zhCN,
     className: '',
     prefixCls: 'ant-pagination',
+    selectPrefixCls: 'ant-select',
   };
 
   static contextTypes = {
@@ -57,7 +60,7 @@ export default class Pagination extends React.Component<PaginationProps, any> {
 
   render() {
     let className = this.props.className;
-    let selectComponentClass = Select;
+    let selectComponentClass = Select as React.ReactNode;
 
     let locale;
     if (this.context.antLocale && this.context.antLocale.Pagination) {
@@ -72,8 +75,9 @@ export default class Pagination extends React.Component<PaginationProps, any> {
     }
 
     return (
-      <RcPagination selectComponentClass={selectComponentClass}
-        selectPrefixCls="ant-select"
+      <RcPagination
+        selectComponentClass={selectComponentClass}
+        selectPrefixCls={this.props.selectPrefixCls}
         {...this.props}
         locale={locale}
         className={className}

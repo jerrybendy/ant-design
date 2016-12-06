@@ -1,12 +1,13 @@
 ---
 category: Components
-type: Views
+type: Data Display
 title: Collapse
+cols: 1
 ---
 
 A content area which can be collapsed and expanded.
 
-## When to use
+## When To Use
 
 - Can be used to group or hide complex regions to keep the page clean.
 - `Accordion` is a special kind of `Collapse`, which allows only one panel to be expanded at a time.
@@ -27,4 +28,3 @@ A content area which can be collapsed and expanded.
 |----------|----------------|----------|--------------|
 | key    | corresponds to the `activeKey` | String   |  -  |
 | header    | title of the panel | React.Element or String   | - |
-

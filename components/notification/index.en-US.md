@@ -1,13 +1,13 @@
 ---
 category: Components
-type: Views
+type: Feedback
 noinstant: true
-english: Notification
+title: Notification
 ---
 
 To display a notification message globally.
 
-## When to use
+## When To Use
 To display a notification message at the top right of the view port. Typically it can be
 used in the following cases:
 
@@ -30,15 +30,16 @@ The properties of config are as follows:
 
 | Property   | Description                                     | Type         | Default |
 |----------- |---------------------------------------------    | ----------- |--------|
-| message    | The title of notification box (required)        | React.Element or String      | No     |
-| description | The content of notification box (required)     | React.Element or String      | No     |
-| btn        | Custom close button                                   | React.Element      | No     |
-| key        | The unique identifer of current notification                                 | String      | No     |
-| onClose    | Specify a function that will be called after clicking the default close button  | Function    | No     |
+| message    | The title of notification box (required)        | React.Node      | -     |
+| description | The content of notification box (required)     | React.Node      | -     |
+| btn        | Customized close button                         | React.Node      | -     |
+| icon       | Customized icon                                 | React.Node      | _     |
+| key        | The unique identifier of current notification                                 | String      | -     |
+| onClose    | Specify a function that will be called after clicking the default close button  | Function    | -     |
 | duration   | A notification box is closed after 4.5s by default. When specifying `duration` to null or 0, it will never be closed automatically | Number    | 4.5     |
 
 
-`Notification` also provide a global `config()` method that can be used for specifying the default options. Once this method is used, all the notification boxes
+`-tification` also provide a global `config()` method that can be used for specifying the default options. Once this method is used, all the notification boxes
 will take into account these globally defined options before displaying.
 
 - `notification.config(options)`

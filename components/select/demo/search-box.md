@@ -1,6 +1,6 @@
 ---
 order: 9
-title: 
+title:
   zh-CN: 搜索框
   en-US: Search Box
 ---
@@ -36,7 +36,7 @@ function fetch(value, callback) {
       code: 'utf-8',
       q: value,
     });
-    jsonp(`http://suggest.taobao.com/sug?${str}`, (err, d) => {
+    jsonp(`https://suggest.taobao.com/sug?${str}`, (err, d) => {
       if (currentValue === value) {
         const result = d.result;
         const data = [];
@@ -64,15 +64,16 @@ const SearchInput = React.createClass({
   },
   handleChange(value) {
     this.setState({ value });
-    fetch(value, (data) => this.setState({ data }));
+    fetch(value, data => this.setState({ data }));
   },
   handleSubmit() {
     console.log('输入框内容是: ', this.state.value);
   },
-  handleFocusBlur(e) {
-    this.setState({
-      focus: e.target === document.activeElement,
-    });
+  handleFocus() {
+    this.setState({ focus: true });
+  },
+  handleBlur() {
+    this.setState({ focus: false });
   },
   render() {
     const btnCls = classNames({
@@ -96,8 +97,8 @@ const SearchInput = React.createClass({
             showArrow={false}
             filterOption={false}
             onChange={this.handleChange}
-            onFocus={this.handleFocusBlur}
-            onBlur={this.handleFocusBlur}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
           >
             {options}
           </Select>

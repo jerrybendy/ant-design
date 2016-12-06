@@ -1,8 +1,8 @@
 ---
-type: Views
+type: Feedback
 category: Components
-chinese: 对话框
-english: Modal
+subtitle: 对话框
+title: Modal
 ---
 
 模态对话框。
@@ -13,9 +13,7 @@ english: Modal
 
 另外当需要一个简洁的确认框询问用户时，可以使用精心封装好的 `ant.Modal.confirm()` 等方法。
 
-
 ## API
-
 
 | 参数       | 说明           | 类型             | 默认值       |
 |------------|----------------|------------------|--------------|

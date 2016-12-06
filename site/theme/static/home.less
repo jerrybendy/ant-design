@@ -9,8 +9,8 @@
 .list-point {
   width: 6px;
   height: 6px;
-  background: #00AAEE;
-  border-radius: 6px;
+  background: #0ae;
+  border-radius: @border-radius-base;
   float: left;
   margin: 4px auto;
   opacity: 0.5;
@@ -21,23 +21,25 @@
   opacity: 1;
 }
 
-#banner {
+.banner-wrapper {
   position: relative;
-  height: 100%;
   width: 100%;
+  overflow: hidden;
   background: url("https://os.alipayobjects.com/rmsportal/GhjqstwSgxBXrZS.png") no-repeat center / cover;
 }
 .banner-text-wrapper {
   position: absolute;
-  left: 10%;
-  top: 55%;
+  left: 13%;
+  top: 53%;
   color: #fff;
   text-align: right;
+  font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
 }
 .banner-text-wrapper h2 {
   font-size: 40px;
   font-weight: normal;
   font-family: 'Raleway', 'Hiragino Sans GB';
+  white-space: nowrap;
 }
 .banner-text-wrapper h2 p {
   color: #FF3171;
@@ -62,25 +64,24 @@
 
 .banner-text-wrapper .start-button {
   margin-bottom: 24px;
+  text-align: right;
 
   > a {
-    float: right;
-    width: 155px;
-    height: 45px;
-    border-radius: 6px;
-    border: 1px solid #00AAEE;
-    color: #00AAEE;
-    font-size: 18px;
+    display: inline-block;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: @border-radius-base;
+    border: 1px solid #0ae;
+    color: #0ae;
+    font-size: 15px;
     background: transparent;
     transition: box-shadow .45s ease-out;
     text-align: center;
-    line-height: 42px;
+    line-height: 36px;
+    margin-left: 8px;
   }
   > a:hover {
-    box-shadow: 0 0 10px #00AAEE;
-  }
-  > a span {
-    margin-left: 15px;
+    box-shadow: 0 0 10px #0ae;
   }
 }
 
@@ -106,11 +107,12 @@
 
 .page {
   min-height: 700px;
+  height: 100vh;
 }
 
 .content-wrapper {
   width: 100%;
-  height: 100%;
+  max-width: 1500px;
   margin: auto;
   overflow: hidden;
   background: #fff;
@@ -127,12 +129,15 @@
     position: relative;
     top: 20%;
     left: 10px;
+    font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+    z-index: 1;
   }
   .text-wrapper h2,
   .text-wrapper-bottom h2 {
     font-size: 32px;
     color: #666;
     font-weight: normal;
+    white-space: nowrap;
   }
   .text-wrapper p {
     margin: 10px 0 20px;

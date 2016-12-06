@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import RcMention, { Nav, toString, toEditorState, getMentions } from 'rc-editor-mention';
-import classnames from 'classnames';
+import classNames from 'classnames';
+import Icon from '../icon';
 
 export interface MentionProps {
   prefixCls: string;
@@ -11,9 +12,13 @@ export interface MentionProps {
   notFoundContent?: any;
   loading?: Boolean;
   style?: Object;
-  defaultValue?: string;
+  defaultValue?: any;
+  value?: any;
   className?: string;
   multiLines?: Boolean;
+  prefix?: string;
+  placeholder?: string;
+  getSuggestionContainer?: Function;
 }
 
 export interface MentionState {
@@ -28,7 +33,6 @@ export default class Mention extends React.Component<MentionProps, MentionState>
   static getMentions = getMentions;
   static defaultProps = {
     prefixCls: 'ant-mention',
-    suggestions: [],
     notFoundContent: '无匹配结果，轻敲空格完成输入',
     loading: false,
     multiLines: false,
@@ -47,14 +51,14 @@ export default class Mention extends React.Component<MentionProps, MentionState>
     });
   }
 
-  onSearchChange(value) {
+  onSearchChange = (value) => {
     if (this.props.onSearchChange) {
       return this.props.onSearchChange(value);
     }
     return this.defaultSearchChange(value);
   }
 
-  onChange(editorState) {
+  onChange = (editorState) => {
     if (this.props.onChange) {
       this.props.onChange(editorState);
     }
@@ -62,7 +66,7 @@ export default class Mention extends React.Component<MentionProps, MentionState>
 
   defaultSearchChange(value: String): void {
     const searchValue = value.toLowerCase();
-    const filteredSuggestions = this.props.suggestions.filter(
+    const filteredSuggestions = (this.props.suggestions || []).filter(
       suggestion => suggestion.toLowerCase().indexOf(searchValue) !== -1
     );
     this.setState({
@@ -71,32 +75,27 @@ export default class Mention extends React.Component<MentionProps, MentionState>
   }
 
   render() {
-    const { className, prefixCls, style, multiLines, defaultValue } = this.props;
-    let { notFoundContent } = this.props;
-
+    const { className = '', prefixCls, loading } = this.props;
     const { suggestions, focus } = this.state;
-    const cls = classnames({
-      [className]: !!className,
-      ['active']: focus,
+    const cls = classNames(className, {
+      [`${prefixCls}-active`]: focus,
     });
 
-    if (this.props.loading) {
-      notFoundContent = <i className="anticon anticon-loading"></i>;
-    }
+    const notFoundContent = loading
+      ? <Icon type="loading" />
+      : this.props.notFoundContent;
 
-    return <RcMention
+    return (
+      <RcMention
         {...this.props}
         className={cls}
-        prefixCls={prefixCls}
-        style={style}
-        defaultValue={defaultValue}
-        multiLines={multiLines}
-        onSearchChange={this.onSearchChange.bind(this)}
-        onChange={this.onChange.bind(this)}
-        onFocus={() => this.setState({focus: true})}
-        onBlur={() => this.setState({focus: false})}
+        onSearchChange={this.onSearchChange}
+        onChange={this.onChange}
+        onFocus={() => this.setState({ focus: true })}
+        onBlur={() => this.setState({ focus: false })}
         suggestions={suggestions}
         notFoundContent={notFoundContent}
-      />;
+      />
+    );
   }
 }

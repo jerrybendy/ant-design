@@ -1,8 +1,8 @@
 ---
 category: Components
-chinese: 警告提示
-type: Views
-english: Alert
+subtitle: 警告提示
+type: Feedback
+title: Alert
 ---
 
 警告提示，展现需要关注的信息。

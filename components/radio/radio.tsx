@@ -1,7 +1,7 @@
 import RcRadio from 'rc-radio';
-import * as React from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import PureRenderMixin from 'rc-util/lib/PureRenderMixin';
 
 export interface RadioProps {
   /** 指定当前是否选中*/
@@ -15,6 +15,8 @@ export interface RadioProps {
   disabled?: boolean;
   className?: string;
   onChange?: (e: any) => any;
+  onMouseEnter?: React.FormEventHandler<any>;
+  onMouseLeave?: React.FormEventHandler<any>;
 }
 
 export default class Radio extends React.Component<RadioProps, any> {
@@ -28,20 +30,24 @@ export default class Radio extends React.Component<RadioProps, any> {
     return PureRenderMixin.shouldComponentUpdate.apply(this, args);
   }
   render() {
-    const { prefixCls, children, checked, disabled, className, style } = this.props;
+    const { prefixCls, children, checked, disabled, className = '', style } = this.props;
     const wrapperClassString = classNames({
       [`${prefixCls}-wrapper`]: true,
       [`${prefixCls}-wrapper-checked`]: checked,
       [`${prefixCls}-wrapper-disabled`]: disabled,
-      [className]: !!className,
-    });
-    const classString = classNames({
-      [`${prefixCls}`]: true,
+    }, className);
+    const classString = classNames(prefixCls, {
       [`${prefixCls}-checked`]: checked,
       [`${prefixCls}-disabled`]: disabled,
     });
+
     return (
-      <label className={wrapperClassString} style={style}>
+      <label
+        className={wrapperClassString}
+        style={style}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
+      >
         <RcRadio {...this.props} className={classString} style={null} children={null} />
         {children ? <span>{children}</span> : null}
       </label>

@@ -1,6 +1,8 @@
 ---
 order: 1
-title: 异步加载
+title: 
+  zh-CN: 异步加载
+  en-US: Asynchronous loading
 ---
 
 ## zh-CN
@@ -9,7 +11,7 @@ title: 异步加载
 
 ## en-US
 
-asnyc
+async
 
 ````jsx
 import { Mention } from 'antd';
@@ -42,7 +44,7 @@ const AsyncMention = React.createClass({
     const { suggestions, loading } = this.state;
     return (
       <Mention
-        style={{ width: 500, height: 100 }}
+        style={{ width: '100%', height: 100 }}
         loading={loading}
         suggestions={suggestions}
         onSearchChange={this.onSearchChange}

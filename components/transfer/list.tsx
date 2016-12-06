@@ -1,44 +1,39 @@
-import * as React from 'react';
-import { PropTypes } from 'react';
-import Checkbox from '../checkbox';
+import React from 'react';
 import Search from './search';
 import classNames from 'classnames';
 import Animate from 'rc-animate';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import PureRenderMixin from 'rc-util/lib/PureRenderMixin';
 import assign from 'object-assign';
 import { TransferItem } from './index';
+import Item from './item';
 
 function noop() {
 }
 
-export function isRenderResultPlainObject(result) {
-  return result && !React.isValidElement(result) &&
-    Object.prototype.toString.call(result) === '[object Object]';
-}
-
 export interface TransferListProps {
-  prefixCls?: string;
-  dataSource: Array<TransferItem>;
+  prefixCls: string;
+  dataSource: TransferItem[];
   filter?: string;
   showSearch?: boolean;
   searchPlaceholder?: string;
   titleText?: string;
   style?: React.CSSProperties;
-  handleFilter?: (e: any) => void;
-  handleSelect?: (selectedItem: any, checked: boolean) => void;
-  handleSelectAll?: (dataSource: any[], checkAll: boolean) => void;
-  handleClear?: () => void;
+  handleFilter: (e: any) => void;
+  handleSelect: (selectedItem: any, checked: boolean) => void;
+  handleSelectAll: (dataSource: any[], checkAll: boolean) => void;
+  handleClear: () => void;
   render?: (item: any) => any;
   body?: (props: any) => any;
   footer?: (props: any) => void;
-  checkedKeys?: any[];
+  checkedKeys: string[];
   checkStatus?: boolean;
   position?: string;
   notFoundContent?: React.ReactNode | string;
   filterOption: (filterText: any, item: any) => boolean;
+  lazy?: {};
 }
 
-export interface TransferContext {
+export interface TransferListContext {
   antLocale?: {
     Transfer?: any,
   };
@@ -49,39 +44,15 @@ export default class TransferList extends React.Component<TransferListProps, any
     dataSource: [],
     titleText: '',
     showSearch: false,
-    handleClear: noop,
-    handleFilter: noop,
-    handleSelect: noop,
-    handleSelectAll: noop,
     render: noop,
-    // advanced
-    body: noop,
-    footer: noop,
-  };
-
-  static propTypes = {
-    prefixCls: PropTypes.string,
-    dataSource: PropTypes.array,
-    showSearch: PropTypes.bool,
-    filterOption: PropTypes.func,
-    searchPlaceholder: PropTypes.string,
-    titleText: PropTypes.string,
-    style: PropTypes.object,
-    handleClear: PropTypes.func,
-    handleFilter: PropTypes.func,
-    handleSelect: PropTypes.func,
-    handleSelectAll: PropTypes.func,
-    render: PropTypes.func,
-    body: PropTypes.func,
-    footer: PropTypes.func,
   };
 
   static contextTypes = {
     antLocale: React.PropTypes.object,
   };
 
-  context: TransferContext;
-  timer: any;
+  context: TransferListContext;
+  timer: number;
 
   constructor(props) {
     super(props);
@@ -151,17 +122,9 @@ export default class TransferList extends React.Component<TransferListProps, any
     );
   }
 
-  matchFilter(filterText, item, text) {
-    const filterOption = this.props.filterOption;
-    if (filterOption) {
-      return filterOption(filterText, item);
-    }
-    return text.indexOf(filterText) >= 0;
-  }
-
   render() {
-    const { prefixCls, dataSource, titleText, filter, checkedKeys,
-            body, footer, showSearch, render, style } = this.props;
+    const { prefixCls, dataSource, titleText, filter, checkedKeys, lazy, filterOption,
+            body = noop, footer = noop, showSearch, render = noop, style } = this.props;
 
     let { searchPlaceholder, notFoundContent } = this.props;
 
@@ -169,65 +132,91 @@ export default class TransferList extends React.Component<TransferListProps, any
     const footerDom = footer(assign({}, this.props));
     const bodyDom = body(assign({}, this.props));
 
-    const listCls = classNames({
-      [prefixCls]: true,
+    const listCls = classNames(prefixCls, {
       [`${prefixCls}-with-footer`]: !!footerDom,
     });
 
-    const filteredDataSource = [];
+    const filteredDataSource: TransferItem[] = [];
 
-    const showItems = dataSource.map(item => {
-      const renderResult = render(item);
-      let renderedText;
-      let renderedEl;
-
-      if (isRenderResultPlainObject(renderResult)) {
-        renderedText = renderResult.value;
-        renderedEl = renderResult.label;
-      } else {
-        renderedText = renderResult;
-        renderedEl = renderResult;
+    const showItems = dataSource.map((item) => {
+      if (!item.disabled) {
+        filteredDataSource.push(item);
       }
-
-      if (filter && filter.trim() && !this.matchFilter(filter, item, renderedText)) {
-        return null;
-      }
-
-      filteredDataSource.push(item);
-
+      const checked = checkedKeys.indexOf(item.key) >= 0;
       return (
-        <li onClick={() => this.handleSelect(item)} key={item.key} title={renderedText}>
-          <Checkbox checked={checkedKeys.some(key => key === item.key)} />
-          <span>{renderedEl}</span>
-        </li>
+        <Item
+          key={item.key}
+          item={item}
+          lazy={lazy}
+          render={render}
+          filter={filter}
+          filterOption={filterOption}
+          checked={checked}
+          prefixCls={prefixCls}
+          onClick={this.handleSelect}
+        />
       );
-    }).filter(item => !!item);
+    });
 
-    let unit = '条';
-    if (this.context.antLocale &&
-        this.context.antLocale.Transfer) {
-      unit = dataSource.length > 1
-        ? this.context.antLocale.Transfer.itemsUnit
-        : this.context.antLocale.Transfer.itemUnit;
-      searchPlaceholder = searchPlaceholder
-        || this.context.antLocale.Transfer.searchPlaceholder;
-      notFoundContent = notFoundContent
-        || this.context.antLocale.Transfer.notFoundContent;
+    let unit = '';
+    const antLocale = this.context.antLocale;
+    if (antLocale && antLocale.Transfer) {
+      const transferLocale = antLocale.Transfer;
+      unit = dataSource.length > 1 ? transferLocale.itemsUnit : transferLocale.itemUnit;
+      searchPlaceholder = searchPlaceholder || transferLocale.searchPlaceholder;
+      notFoundContent = notFoundContent || transferLocale.notFoundContent;
     }
 
     const checkStatus = this.getCheckStatus(filteredDataSource);
+    const outerPrefixCls = prefixCls.replace('-list', '');
+    const search = showSearch ? (
+      <div className={`${prefixCls}-body-search-wrapper`}>
+        <Search
+          prefixCls={`${prefixCls}-search`}
+          onChange={this.handleFilter}
+          handleClear={this.handleClear}
+          placeholder={searchPlaceholder || 'Search'}
+          value={filter}
+        />
+      </div>
+    ) : null;
+
+    const listBody = bodyDom || (
+      <div className={showSearch ? `${prefixCls}-body ${prefixCls}-body-with-search` : `${prefixCls}-body`}>
+        {search}
+        <Animate
+          component="ul"
+          className={`${prefixCls}-content`}
+          transitionName={this.state.mounted ? `${prefixCls}-content-item-highlight` : ''}
+          transitionLeave={false}
+        >
+          {showItems}
+        </Animate>
+        <div className={`${prefixCls}-body-not-found`}>
+          {notFoundContent || 'Not Found'}
+        </div>
+      </div>
+    );
+
+    const listFooter = footerDom ? (
+      <div className={`${prefixCls}-footer`}>
+        {footerDom}
+      </div>
+    ) : null;
+
+    const renderedCheckbox = this.renderCheckbox({
+      prefixCls: outerPrefixCls,
+      checked: checkStatus === 'all',
+      checkPart: checkStatus === 'part',
+      checkable: <span className={`${outerPrefixCls}-checkbox-inner`} />,
+      filteredDataSource,
+      disabled: false,
+    });
 
     return (
       <div className={listCls} style={style}>
         <div className={`${prefixCls}-header`}>
-          {this.renderCheckbox({
-            prefixCls: 'ant-transfer',
-            checked: checkStatus === 'all',
-            checkPart: checkStatus === 'part',
-            checkable: <span className={'ant-transfer-checkbox-inner'}></span>,
-            filteredDataSource,
-            disabled: false,
-          })}
+          {renderedCheckbox}
           <span className={`${prefixCls}-header-selected`}>
             <span>
               {(checkedKeys.length > 0 ? `${checkedKeys.length}/` : '') + dataSource.length} {unit}
@@ -237,28 +226,8 @@ export default class TransferList extends React.Component<TransferListProps, any
             </span>
           </span>
         </div>
-        {bodyDom ||
-          <div className={showSearch ? `${prefixCls}-body ${prefixCls}-body-with-search` : `${prefixCls}-body`}>
-            {showSearch ? <div className={`${prefixCls}-body-search-wrapper`}>
-              <Search prefixCls={`${prefixCls}-search`}
-                onChange={this.handleFilter}
-                handleClear={this.handleClear}
-                placeholder={searchPlaceholder || '请输入搜索内容'}
-                value={filter}
-              />
-            </div> : null}
-            <Animate component="ul"
-              transitionName={this.state.mounted ? `${prefixCls}-highlight` : ''}
-              transitionLeave={false}
-            >
-              {showItems.length > 0
-                ? showItems
-                : <div className={`${prefixCls}-body-not-found`}>{notFoundContent || '列表为空'}</div>}
-            </Animate>
-          </div>}
-        {footerDom ? <div className={`${prefixCls}-footer`}>
-          {footerDom}
-        </div> : null}
+        {listBody}
+        {listFooter}
       </div>
     );
   }

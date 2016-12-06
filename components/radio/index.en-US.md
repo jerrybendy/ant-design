@@ -1,16 +1,15 @@
 ---
 category: Components
-type: Form Controls
+type: Data Entry
 title: Radio
 ---
 
 Radio.
 
-## When to use
+## When To Use
 
 - Used to select a single state in multiple options.
-- The different between Select, Radio is visbile to user, it can facilitate users in the comparison of choice. So, when you want to use Radio, option should not be too much.
-
+- The difference between Select is that Radio is visible to user and can facilitate the comparison of choice. So, when you want to use Radio, option should not be too much.
 
 ## API
 

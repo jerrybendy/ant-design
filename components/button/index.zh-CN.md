@@ -1,6 +1,6 @@
 ---
 category: Components
-type: Basic
+type: General
 title: Button
 subtitle: 按钮
 ---
@@ -19,10 +19,10 @@ subtitle: 按钮
 
 属性 | 说明 | 类型 | 默认值
 -----|-----|-----|------
-type | 设置按钮类型，可选值为 `primary` `ghost` 或者不设 | string | -
+type | 设置按钮类型，可选值为 `primary` `ghost` `dashed` 或者不设 | string | -
 htmlType | 设置 `button` 原生的 `type` 值，可选值请参考 [HTML 标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type) | string | `button`
 icon | 设置按钮的图标类型 | string | -
-shape | 设置按钮形状，可选值为 `circle` `circle-outline` 或者不设 | string | -
+shape | 设置按钮形状，可选值为 `circle` 或者不设 | string | -
 size | 设置按钮大小，可选值为 `small` `large` 或者不设 | string | `default`
 loading | 设置按钮载入状态 | boolean | false
 onClick | `click` 事件的 handler | function | -
@@ -33,5 +33,8 @@ onClick | `click` 事件的 handler | function | -
 [id^="components-button-demo-"] .ant-btn {
   margin-right: 8px;
   margin-bottom: 12px;
+}
+[id^="components-button-demo-"] .ant-btn-group > .ant-btn {
+  margin-right: 0;
 }
 </style>

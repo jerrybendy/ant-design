@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import splitObject from '../_util/splitObject';
 
@@ -7,6 +7,7 @@ export interface TimeLineItemProps {
   /** 指定圆圈颜色 */
   color?: string;
   dot?: React.ReactNode;
+  pending?: boolean;
   style?: React.CSSProperties;
 }
 
@@ -28,8 +29,7 @@ export default class TimelineItem extends React.Component<TimeLineItemProps, any
       [`${prefixCls}-item`]: true,
       [`${prefixCls}-item-last`]: last,
       [`${prefixCls}-item-pending`]: pending,
-      [className]: className,
-    });
+    }, className);
 
     const dotClassName = classNames({
       [`${prefixCls}-item-head`]: true,

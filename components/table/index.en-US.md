@@ -1,20 +1,20 @@
 ---
 category: Components
 cols: 1
-type: Views
+type: Data Display
 title: Table
 ---
 
 A table displays rows data.
 
-## When to use
+## When To Use
 
-- To display a collections of structured data.
-- To sort, search, paging, filter data.
+- To display a collection of structured data.
+- To sort, search, paginate, filter data.
 
-## How to use
+## How To Use
 
-Sepecify `dataSource` of Table to be an array data.
+Specify `dataSource` of Table whose value is an array of data.
 
 ```jsx
 const dataSource = [{
@@ -50,10 +50,10 @@ const columns = [{
 
 ### Table
 
-| Property      | Type                     | Default         | Description  |
+| Property      | Description              | Type            | Default      |
 |---------------|--------------------------|-----------------|--------------|
 | rowSelection  | row selection [config](#rowSelection)  | Object  | null  |
-| pagination    | pagination [config](/components/pagination), hide it via setting to `false` | Object |  |
+| pagination    | pagination [config](/components/pagination/), hide it via setting to `false` | Object |  |
 | size          | size of table: `default` or `small`  | String | `default` |
 | dataSource    | data record array to be rendered | Array |            |
 | columns       | columns of table | Array | - |
@@ -62,6 +62,9 @@ const columns = [{
 | expandedRowRender  | expanded container render for each row | Function | - |
 | defaultExpandedRowKeys | initial expanded row keys | Array | - |
 | expandedRowKeys | current expanded rows keys | Array | - |
+| defaultExpandAllRows | expand all rows initially | Boolean | false |
+| onExpandedRowsChange | function to call when the expanded rows change | Function(expandedRows) | |
+| onExpand      | function to call when click expand icon | Function(expanded, record) | |
 | onChange      | callback that is called when pagination, filters, sorter is changed | Function(pagination, filters, sorter) |  |
 | loading       | loading status of table | Boolean | false |
 | locale        | i18n text include filter, sort, empty text...etc | Object | filterConfirm: 'Ok' <br> filterReset: 'Reset' <br> emptyText: 'No Data' <br> [Default](https://github.com/ant-design/ant-design/issues/575#issuecomment-159169511) |
@@ -75,9 +78,9 @@ const columns = [{
 
 ### Column
 
-One of Property `columns` for descriping column.
+One of Property `columns` for descriping column, Column has the same API.
 
-| Property      | Type                     | Default         | Description  |
+| Property      | Description              | Type            |  Default     |
 |---------------|--------------------------|-----------------|--------------|
 | title      | title of this column        | String or React.Element | - |
 | key        | key of this column | String          | - |
@@ -87,19 +90,28 @@ One of Property `columns` for descriping column.
 | onFilter   | callback that is called when when click confirm filter button | Function | - |
 | filterMultiple | whether to select multiple filtered item | Boolean    | true    |
 | filterDropdown | customized filter overlay | React.Element | - |
+| filterDropdownVisible | whether filterDropdown is visible | Boolean | - |
+| onFilterDropdownVisibleChange | called when filterDropdownVisible is changed | function(visible) {} | - |
+| filteredValue | controlled filtered value | Array | - |
 | sorter     | sort function for local sort. If you need sort buttons only, set it `true` | Function or Boolean | - |
-| colSpan    | colSpan for column title | Number |         |
+| colSpan    | span of this column's title | Number |         |
 | width      | width of this column | String or Number | -  |
 | className  | className of this column            | String          |  -      |
 | fixed      | set column to be fixed: `true`(same as left) `'left'` `'right'` | Boolean or String | false |
-| filteredValue | controlled filtered value | Array | - |
 | sortOrder | controlled sorted value: `'ascend'` `'descend'` `false` | Boolean or String | - |
+| onCellClick | callback when click cell | Function(record, event) | - |
+
+### ColumnGroup
+
+| Property      | Description              | Type            |  Default     |
+|---------------|--------------------------|-----------------|--------------|
+| title      | title of the column group   | String or React.Element | - |
 
 ### rowSelection
 
 Properties for selection.
 
-| Property      | Type                     | Default         | Description  |
+| Property      | Description              | Type            |  Default     |
 |---------------|--------------------------|-----------------|--------------|
 | type | `checkbox` or `radio` | String | `checkbox`  |
 | selectedRowKeys | controlled selected row keys | Array | []  |

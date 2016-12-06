@@ -1,8 +1,8 @@
 ---
 category: Components
-chinese: 开关
-type: Form Controls
-english: Switch
+subtitle: 开关
+type: Data Entry
+title: Switch
 ---
 
 开关选择器。

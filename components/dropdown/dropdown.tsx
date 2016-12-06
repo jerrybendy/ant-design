@@ -1,15 +1,20 @@
-import * as React from 'react';
+import React, { cloneElement } from 'react';
 import RcDropdown from 'rc-dropdown';
+import classNames from 'classnames';
 
 export interface DropDownProps {
-  trigger?: Array<'click'|'hover'>;
+  trigger?: Array<'click' | 'hover'>;
   overlay: React.ReactNode;
   style?: React.CSSProperties;
-  onVisibleChange: (visible: boolean) => void;
-  visible: boolean;
+  onVisibleChange?: (e: {visible: boolean}) => void;
+  visible?: boolean;
+  align?: Object;
+  getPopupContainer?: () => HTMLElement;
+  prefixCls?: string;
 }
 
 export default class Dropdown extends React.Component<DropDownProps, any> {
+  static Button: React.ReactNode;
   static defaultProps = {
     transitionName: 'slide-up',
     prefixCls: 'ant-dropdown',
@@ -18,6 +23,14 @@ export default class Dropdown extends React.Component<DropDownProps, any> {
   };
 
   render() {
-    return <RcDropdown {...this.props} />;
+    const { children, prefixCls } = this.props;
+    const dropdownTrigger = cloneElement(children as any, {
+      className: classNames((children as any).props.className, `${prefixCls}-trigger`),
+    });
+    return (
+      <RcDropdown {...this.props}>
+        {dropdownTrigger}
+      </RcDropdown>
+    );
   }
 }

@@ -1,12 +1,12 @@
 ---
 category: Components
-type: Views
+type: Data Display
 title: Tree
 ---
 
-## When to use
+## When To Use
 
-Directory, organization, biological classification, country, and etc. Almost things of the world are tree structrue. The `Tree` component is a way of representing the hierachical relationship of these things，and you also can expand, collapse, select the treeNodes of it.
+Directory, organization, biological classification, country, and etc. Almost things of the world are tree structure. The `Tree` component is a way of representing the hierarchical relationship of these things，and you also can expand, collapse, select the treeNodes of it.
 
 ## API
 
@@ -14,11 +14,11 @@ Directory, organization, biological classification, country, and etc. Almost thi
 
 | Property       | Description                                      | Type       | Default |
 |----------------|--------------------------------------------------|------------|---------|
-|multiple | Whether allow to multiple select treeNode | bool | false |
-|checkable | Whether support checkable treeNode | bool   | false    |
+|multiple | Whether allow to select multiple treeNodes | bool | false |
+|checkable | Whether support add Checkbox before treeNode | bool | false |
 |defaultExpandAll | Whether default to expand all treeNodes | bool | false |
 |defaultExpandedKeys | Specify keys of default expanded treeNodes | String[] | [] |
-|expandedKeys |(controlled) Sepcifies keys of expanded treeNodes | String[] | [] |
+|expandedKeys |(controlled) Specifies keys of expanded treeNodes | String[] | [] |
 |autoExpandParent | Whether to automatically expand a parent treeNode | bool | true |
 |defaultCheckedKeys | Specifies keys of default checked treeNodes | String[] | [] |
 |checkedKeys |(controlled) Specifies keys of checked treeNodes（PS： When specifies a key of treeNode which is a parent treeNode, all children treeNodes of its will be checked; And vice versa, when specifies a key of treeNode which is a child treeNode, its parent treeNode will also be checked. When `checkable` and `checkStrictly` is true, it'a object has `checked` and `halfChecked` property, and no matter child treeNode or parent treeNode is checked, they won't impact on eachother. | String[]/{checked:Array<String>,halfChecked:Array<String>} | [] |
@@ -30,12 +30,13 @@ Directory, organization, biological classification, country, and etc. Almost thi
 |onSelect | The callback will be invoked when the user clicks a treeNode | function(selectedKeys, e:{selected: bool, selectedNodes, node, event}) | - |
 |filterTreeNode | Defines a function to filter treeNodes（highlight），when return true, corresponding treeNode will be highlight | function(node) | - |
 |loadData | load data asynchronously | function(node)| - |
-|onRightClick | The call back will be invoked when the user right clicks a treeNoe | function({event,node}) | - |
+|onRightClick | The call back will be invoked when the user right clicks a treeNode | function({event,node}) | - |
 |draggable | Specifies whether this Tree is draggable（IE>8） | bool | false |
 |onDragStart | Defines a function will be called when the onDragStart event occurs | function({event,node}) | - |
 |onDragEnter | Defines a function will be called when the onDragEnter event occurs | function({event,node,expandedKeys}) | - |
 |onDragOver  | Defines a function will be called when the onDragOver event occurs | function({event,node}) | - |
 |onDragLeave | Defines a function will be called when the onDragLeave event occurs | function({event,node}) | - |
+|onDragEnd | Defines a function will be called when the onDragEnd event occurs | function({event,node}) | - |
 |onDrop | Defines a function will be called when the onDrop event occurs | function({event, node, dragNode, dragNodesKeys}) | - |
 
 ### TreeNode props
@@ -50,8 +51,8 @@ Directory, organization, biological classification, country, and etc. Almost thi
 
 ## note
 
-The number of treeNodes can be very large, but when enable `checkable`, 
-it will spend more computing time, so we cached some calculations(e.g. `this.treeNodesStates`), 
-to avoid double computing. But, this bring some restrictions, 
-**when you async load treeNodes, you should render tree like this** 
+The number of treeNodes can be very large, but when enable `checkable`,
+it will spend more computing time, so we cached some calculations(e.g. `this.treeNodesStates`),
+to avoid double computing. But, this bring some restrictions,
+**when you async load treeNodes, you should render tree like this**
 `{this.state.treeData.length ? <Tree ...>{this.state.treeData.map(t => <TreeNode ... />)}</Tree> : 'loading tree'}`
